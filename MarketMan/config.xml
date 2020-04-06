@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<layout>
+                <Node label="主界面" info="helo"></Node>
+                <Node label="商品管理" collapse="0">
+                        <Node label="商品类别" info=""></Node>
+                        <Node label="商品信息" info=""></Node>
+                        <Node label="商品录入"></Node>
+		</Node>
+                <Node label="库存管理" collapse="0">
+                        <Node label="制定进货单"></Node>
+                        <Node label="进货入库"></Node>
+                        <Node label="入库查询"></Node>
+                        <Node label="管理供货"></Node>
+		</Node>
+                <Node label="员工管理" collapse="0">
+                        <Node label="员工录入"></Node>
+                        <Node label="员工查询"></Node>
+                        <Node label="修改信息"></Node>
+		</Node>
+                <Node label="其他" collapse="0">
+                        <Node label="进入前台"></Node>
+		</Node>
+                <Node label="关于">
+		</Node>
+	</layout>
+</root>
