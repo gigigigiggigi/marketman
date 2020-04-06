@@ -59,4 +59,7 @@ void MainView::on_listView_pressed(const QModelIndex &index)
         this->ui->stackedWidget->setCurrentIndex(0);
     else if(str == "商品类别")
         this->ui->stackedWidget->setCurrentIndex(1);
+    else if(str == "商品录入")
+        this->ui->stackedWidget->setCurrentIndex(2);
+
 }
