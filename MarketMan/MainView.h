@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <qsqldatabase.h>
 
 namespace Ui {
 class MainView;
@@ -16,13 +17,18 @@ public:
     ~MainView();
 
 private slots:
-
+        void SqlLink();
         void on_listView_pressed(const QModelIndex &index);
+
+
+        void on_pushButton_clicked();
 
 private:
     Ui::MainView *ui;
-    void SqlLink();
+    QSqlDatabase db;
+
     void SetListItem();
+    void SetGoodsTypeTable();
 
 };
 
