@@ -65,15 +65,18 @@ void MainView::SetGoodsTypeTable()
     pModel->setHeaderData(0, Qt::Horizontal, tr("商品类别"));
     pModel->removeColumn(0);
 
+    ui->tableGoodstype->setModel(pModel);
+    ui->tableGoodstype->setColumnWidth(0,ui->tableGoodstype->width());
+
+    ui->tableGoodstype->show();
+
+
   //  QSqlQueryModel *model = new QSqlQueryModel(this);
 
   //  model->setQuery(QString("select * from goodtype"),db);
    // model->setHeaderData(1, Qt::Horizontal, QObject::tr("商品类别"));
 
-    ui->tableGoodstype->setModel(pModel);
-    ui->tableGoodstype->setColumnWidth(0,ui->tableGoodstype->width());
 
-    ui->tableGoodstype->show();
 }
 
 
