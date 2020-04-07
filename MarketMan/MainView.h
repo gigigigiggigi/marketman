@@ -8,6 +8,7 @@ namespace Ui {
 class MainView;
 }
 
+
 class MainView : public QWidget
 {
     Q_OBJECT
