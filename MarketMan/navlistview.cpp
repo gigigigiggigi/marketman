@@ -150,14 +150,14 @@ void NavDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, c
 	painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, index.data(Qt::DisplayRole).toString());
 
 	//绘制分隔符线条
-	if (nav->getLineVisible()) {
+    if (nav->getLineVisible()) {
 		painter->setPen(QPen(nav->getColorLine(), 1));
 
 		if (node->level == 1 || (node->level == 2 && node->theLast)) {
 			painter->drawLine(QPointF(option.rect.x(), option.rect.y() + option.rect.height()),
 			                  QPointF(option.rect.x() + option.rect.width(), option.rect.y() + option.rect.height()));
 		}
-	}
+    }
 
 	//绘制提示信息
 	QString recordInfo = node->info;
