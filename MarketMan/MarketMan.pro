@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
     MainView.cpp \
-    navlistview.cpp
+    navlistview.cpp \
+    intable_model.cpp
 
 HEADERS += \
     MainView.h \
-    navlistview.h
+    navlistview.h \
+    intable_model.h
 
 FORMS += \
     MainView.ui
