@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
     MainView.cpp \
     navlistview.cpp \
-    intable_model.cpp
+    intable_model.cpp \
+    mylineedit.cpp
 
 HEADERS += \
     MainView.h \
     navlistview.h \
-    intable_model.h
+    intable_model.h \
+    mylineedit.h
 
 FORMS += \
     MainView.ui
