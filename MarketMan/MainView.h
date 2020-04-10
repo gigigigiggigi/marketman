@@ -22,6 +22,7 @@ public:
 
 private slots:
         void SqlLink();
+        void handlelineeditclicked();
         void on_listView_pressed(const QModelIndex &index);
 
 
@@ -35,23 +36,43 @@ private slots:
 
         void on_btndelete_goodinfo_clicked();
 
-
-
         void on_btnadd_goodadd_clicked();
+
+        void on_cbox_stock_goodid_currentIndexChanged(const QString &arg1);
+
+        void on_btnadd_stock_clicked();
+
+        void on_btndelete_stock_clicked();
+
+        void on_btnupdate_stock_clicked();
+
+        void on_btndelete_stock_supplier_clicked();
+
+        void on_btnupdate_stock_supplier_clicked();
+
+        void on_btnadd_stock_supplier_clicked();
 
 private:
     Ui::MainView *ui;
     QSqlDatabase db;
     intable_model *pModel_tablegoodtype;
     intable_model *pModel_tablegoodinfo;
+    intable_model *pModel_tablestockinfo;
+    intable_model *pModel_tablesuppliersinfo;
 
-    void SetModels();
+
     void SetListItem();
 
     void InitGoodadd();
+    void InitStockman_stockinput();
+    void InitSupplieradd();
 
     void SetGoodsTypeTable();
     void SetGoodsInfoTable();
+    void SetStockInfoTable();
+    void SetSuppliersInfoTable();
+
+    void SetModels();
 
 };
 
