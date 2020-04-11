@@ -52,6 +52,20 @@ private slots:
 
         void on_btnadd_stock_supplier_clicked();
 
+        void on_btnadd_workerman_clicked();
+
+        void on_btndelete_workerman_clicked();
+
+        void on_btnupdate_workerman_clicked();
+
+        void on_btnadd_workerman_workertype_clicked();
+
+        void on_btnupdate_workerman_workertype_clicked();
+
+        void on_btndelete_workerman_workertype_clicked();
+
+        void on_btngoodinfo_goodup_clicked();
+
 private:
     Ui::MainView *ui;
     QSqlDatabase db;
@@ -59,6 +73,8 @@ private:
     intable_model *pModel_tablegoodinfo;
     intable_model *pModel_tablestockinfo;
     intable_model *pModel_tablesuppliersinfo;
+    intable_model *pModel_tableworkerinfo;
+    intable_model *pModel_tableworkerinfo_worktyinfo;
 
 
     void SetListItem();
@@ -66,11 +82,16 @@ private:
     void InitGoodadd();
     void InitStockman_stockinput();
     void InitSupplieradd();
+    void InitWorkermanworkeradd();
 
     void SetGoodsTypeTable();
     void SetGoodsInfoTable();
     void SetStockInfoTable();
     void SetSuppliersInfoTable();
+    void SetWorkerInfoTable();
+    void SetWorkerTypeInfoTable();
+
+
 
     void SetModels();
 
