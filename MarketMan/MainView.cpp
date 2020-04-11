@@ -76,7 +76,7 @@ void MainView::InitGoodadd()
     ui->cboc_goodadd_supplier->setModel(model2);
 
     QRegExp regx("^([0]|[1-9][0-9]{0,99})(?:\\.\\d{1,4})?$|(^\\t?$)");
-    QValidator *validator = new QRegExpValidator(regx, ui->lineEdit_goodadd_id);
+    QValidator *validator = new QRegExpValidator(regx);
     ui->lineEdit_goodadd_id->setValidator(validator);
     ui->lineEdit_goodadd_barcode->setValidator(validator);
     ui->lineEdit_goodadd_onground->setValidator(validator);
@@ -89,6 +89,8 @@ void MainView::InitGoodadd()
     ui->lineEdit_goodadd_pricecut->setValidator(validator);
     ui->lineEdit_goodadd_cutstarttime->setDate(QDate::currentDate());
     ui->lineEdit_goodadd_cutstoptime->setDate(QDate::currentDate());
+
+    ui->lineEdit_goodinfo_goodup->setValidator(validator);
 
 }
 
@@ -126,7 +128,7 @@ void MainView::InitStockman_stockinput()
     ui->cbox_stock_person->setModel(model3);
 
     QRegExp regx("^([0]|[1-9][0-9]{0,99})(?:\\.\\d{1,4})?$|(^\\t?$)");
-    QValidator *validator = new QRegExpValidator(regx, ui->lineEdit_goodadd_id);
+    QValidator *validator = new QRegExpValidator(regx);
 
     ui->lineEdit_stock_goodnum->setValidator(validator);
     ui->lineEdit_stock_totalprice->setValidator(validator);
@@ -140,6 +142,21 @@ void MainView::InitSupplieradd()
     QRegExp regx("^([0]|[1-9][0-9]{0,99})(?:\\.\\d{1,4})?$|(^\\t?$)");
     QValidator *validator = new QRegExpValidator(regx, ui->lineEdit_goodadd_id);
     ui->lineEdit_stock_supplier_phone->setValidator(validator);
+}
+
+void MainView::InitWorkermanworkeradd()
+{
+    QRegExp regx("^([0]|[1-9][0-9]{0,99})(?:\\.\\d{1,4})?$|(^\\t?$)");
+    QValidator *validator = new QRegExpValidator(regx);
+    QRegExp regx2("[a-zA-Z0-9\-\\\_]{25}");
+    QValidator *validator2 = new QRegExpValidator(regx);
+    ui->lineEdit_workerman_pwd->setValidator(validator2);
+    ui->lineEdit_workerman_id->setValidator(validator);
+    ui->lineEdit_workerman_salary->setValidator(validator);
+    ui->lineEdit_workerman_phone->setValidator(validator);
+    QSqlQueryModel *model = new QSqlQueryModel(this);
+    model->setQuery(QString("select workertype_type from workertype"),db);
+    ui->cbox_workerman_workertype->setModel(model);
 }
 
 
@@ -245,12 +262,48 @@ void MainView::SetSuppliersInfoTable()
 
 }
 
+void MainView::SetWorkerInfoTable()
+{
+    pModel_tableworkerinfo = new intable_model(this,db);
+    pModel_tableworkerinfo->setTable("user");
+    pModel_tableworkerinfo->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    pModel_tableworkerinfo->select(); //选取整个表的所有行
+    pModel_tableworkerinfo->setHeaderData(0, Qt::Horizontal, tr("员工编号"));
+    pModel_tableworkerinfo->setHeaderData(1, Qt::Horizontal, tr("员工姓名"));
+    pModel_tableworkerinfo->setHeaderData(2, Qt::Horizontal, tr("员工手机号"));
+    pModel_tableworkerinfo->setHeaderData(4, Qt::Horizontal, tr("员工性别"));
+    pModel_tableworkerinfo->setHeaderData(6, Qt::Horizontal, tr("员工工资"));
+    pModel_tableworkerinfo->setHeaderData(7, Qt::Horizontal, tr("员工类型"));
+
+    ui->tableworkerinfo->setModel(pModel_tableworkerinfo);
+    ui->tableworkerinfo->setColumnHidden(3,true);
+    ui->tableworkerinfo->setColumnHidden(5,true);
+    ui->tableworkerinfo->setSelectionBehavior(QAbstractItemView::SelectRows);//设置选中模式为选中行
+    ui->tableworkerinfo->show();
+}
+
+void MainView::SetWorkerTypeInfoTable()
+{
+    pModel_tableworkerinfo_worktyinfo = new intable_model(this,db);
+    pModel_tableworkerinfo_worktyinfo->setTable("workertype");
+    pModel_tableworkerinfo_worktyinfo->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    pModel_tableworkerinfo_worktyinfo->select();
+    pModel_tableworkerinfo_worktyinfo->setHeaderData(0, Qt::Horizontal, tr("员工类型"));
+
+    ui->tableworkertype->setModel(pModel_tableworkerinfo_worktyinfo);
+    ui->tableworkertype->setColumnWidth(0,ui->tableworkertype->width());
+    ui->tableworkertype->setSelectionBehavior(QAbstractItemView::SelectRows);//设置选中模式为选中行
+    ui->tableworkertype->show();
+}
+
 void MainView::SetModels()
 {
     SetGoodsTypeTable();
     SetGoodsInfoTable();
     SetStockInfoTable();
     SetSuppliersInfoTable();
+    SetWorkerInfoTable();
+    SetWorkerTypeInfoTable();
 }
 
 
@@ -288,10 +341,12 @@ void MainView::on_listView_pressed(const QModelIndex &index)
     else if(str == "管理供货")
     {
         this->ui->stackedWidget->setCurrentIndex(6);
+        InitSupplieradd();
     }
     else if(str == "员工录入")
     {
         this->ui->stackedWidget->setCurrentIndex(7);
+        InitWorkermanworkeradd();
     }
     else if(str == "员工查询")
     {
@@ -727,6 +782,234 @@ void MainView::on_btnadd_stock_supplier_clicked()
         QMessageBox::information(this,"提示","失败");
         qDebug()<<db.lastError();
     }
+
+
+}
+
+void MainView::on_btnadd_workerman_clicked()
+{
+    QString workerid = ui->lineEdit_workerman_id->text();
+    QString workername = ui->lineEdit_workerman_name->text();
+    QString workerpwd = ui->lineEdit_workerman_pwd->text();
+    double workersalary = ui->lineEdit_workerman_salary->text().toFloat();
+    QString workersex = ui->cbox_workerman_sex->currentText();
+    QString workertype = ui->cbox_workerman_workertype->currentText();
+    QString workerphone = ui->lineEdit_workerman_phone->text();
+
+    if(workerid==NULL||workername==NULL||workerpwd==NULL||workersalary==NULL||workersex==NULL||workertype==NULL||workerphone == NULL)
+    {
+        QMessageBox::information(this,"提示","输入无效,检查空值！！！");
+        return;
+    }
+
+    QString sql = QString("insert into user(user_id,user_name,user_phone,user_password,user_sex,user_salary,user_type) values('%1','%2','%3','%4','%5','%6','%7')").arg(workerid).arg(workername).arg(workerphone).arg(workerpwd)
+                    .arg(workersex).arg(workersalary).arg(workertype);
+    QSqlQuery query(db);
+    QString sql2 = QString("select user_id from user where user_id = '%1'").arg(workerid);
+    QSqlQuery query2(db);
+    query2.exec(sql2);
+    while(query2.next())
+    {
+        QMessageBox::information(this,"提示","重复添加");
+        return;
+    }
+
+    bool b = query.exec(sql);
+    if(b)
+    {
+         QMessageBox::information(this,"提示","添加成功");
+         ui->lineEdit_workerman_id->setText("");
+         ui->lineEdit_workerman_name->setText("");
+         ui->lineEdit_workerman_pwd->setText("");
+         ui->lineEdit_workerman_salary->setText("");
+         ui->lineEdit_workerman_phone->setText("");
+    }
+    else
+    {
+        QMessageBox::information(this,"提示","失败");
+        qDebug()<<db.lastError();
+    }
+}
+
+void MainView::on_btndelete_workerman_clicked()
+{
+    QItemSelectionModel *sModel = ui->tableworkerinfo->selectionModel();
+
+    //取出模型中的索引
+    QModelIndexList list = sModel->selectedRows();
+    //删除所有选中的行
+    bool b;
+    qDebug()<<"com in";
+    if(list.size()>0)
+    {
+        for(int i=0; i < list.size(); i++){
+            pModel_tableworkerinfo->removeRow( list.at(i).row() );
+        }
+
+        int ok = QMessageBox::warning(this,tr("删除当前行!"),tr("你确定删除当前行吗？"), QMessageBox::Yes,QMessageBox::No);
+
+        if(ok == QMessageBox::Yes)
+        {
+            qDebug()<<"com in";
+            pModel_tableworkerinfo->submitAll();
+            b =  pModel_tableworkerinfo->database().commit();
+            if(b)
+            {
+                QMessageBox::information(this,"提示","删除成功");
+
+            }
+            else
+                QMessageBox::information(this,"提示","失败");
+        }
+        else
+        {
+            pModel_tableworkerinfo->revertAll();
+        }
+    }
+}
+
+void MainView::on_btnupdate_workerman_clicked()
+{
+    int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
+
+    if(ok == QMessageBox::Yes)
+    {
+        qDebug()<<"com in";
+        pModel_tableworkerinfo->submitAll();
+        bool b;
+        b =  pModel_tableworkerinfo->database().commit();
+        if(b)
+        {
+            QMessageBox::information(this,"提示","修改成功");
+
+        }
+        else
+            QMessageBox::information(this,"提示","失败");
+    }
+}
+
+void MainView::on_btnadd_workerman_workertype_clicked()
+{
+    QString str = ui->lineEdit_workerman_workertype_type->text();
+    if(str=="")
+    {
+        QMessageBox::information(this,"提示","输入无效");
+        return;
+    }
+    QSqlQuery query = QSqlQuery(db);
+    QSqlQuery query2 = QSqlQuery(db);
+    QString sql  = QString("insert into workertype(workertype_type) values('%1')").arg(str);
+    QString sql2  = QString("select workertype_type from workertype where workertype_type = '%1'").arg(str);
+    query2.exec(sql2);
+    while(query2.next())
+    {
+         QMessageBox::information(this,"提示","重复添加");
+         return;
+    }
+    bool b = query.exec(sql);
+    if(b)
+    {
+        QMessageBox::information(this,"提示","添加成功");
+        pModel_tableworkerinfo_worktyinfo->select();
+        ui->lineEdit_workerman_workertype_type->setText("");
+        QSqlQueryModel *model = new QSqlQueryModel(this);
+        model->setQuery(QString("select workertype_type from workertype"),db);
+        ui->cbox_workerman_workertype->setModel(model);
+    }
+
+    else
+        QMessageBox::information(this,"提示","失败");
+}
+
+void MainView::on_btnupdate_workerman_workertype_clicked()
+{
+    int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
+
+    if(ok == QMessageBox::Yes)
+    {
+        qDebug()<<"com in";
+        pModel_tableworkerinfo_worktyinfo->submitAll();
+        bool b;
+        b =  pModel_tableworkerinfo_worktyinfo->database().commit();
+        if(b)
+        {
+            QMessageBox::information(this,"提示","修改成功");
+
+        }
+        else
+            QMessageBox::information(this,"提示","失败");
+    }
+}
+
+void MainView::on_btndelete_workerman_workertype_clicked()
+{
+    QItemSelectionModel *sModel = ui->tableworkertype->selectionModel();
+
+    //取出模型中的索引
+    QModelIndexList list = sModel->selectedRows();
+    //删除所有选中的行
+    bool b;
+    qDebug()<<"com in";
+    if(list.size()>0)
+    {
+        for(int i=0; i < list.size(); i++){
+            pModel_tableworkerinfo_worktyinfo->removeRow( list.at(i).row() );
+        }
+
+        int ok = QMessageBox::warning(this,tr("删除当前行!"),tr("你确定删除当前行吗？"), QMessageBox::Yes,QMessageBox::No);
+
+        if(ok == QMessageBox::Yes)
+        {
+            qDebug()<<"com in";
+            pModel_tableworkerinfo_worktyinfo->submitAll();
+            b =  pModel_tableworkerinfo_worktyinfo->database().commit();
+            if(b)
+            {
+                QMessageBox::information(this,"提示","删除成功");
+
+            }
+            else
+                QMessageBox::information(this,"提示","失败");
+        }
+        else
+        {
+            pModel_tableworkerinfo_worktyinfo->revertAll();
+        }
+    }
+}
+
+void MainView::on_btngoodinfo_goodup_clicked()
+{
+      int num = ui->lineEdit_goodinfo_goodup->text().toInt();
+      if(num == NULL||num == 0)
+          return;
+
+      int curRow = ui->tableGoodsinfo->currentIndex().row();
+
+      int currentstock =pModel_tablegoodinfo->data(pModel_tablegoodinfo->index(curRow,13)).toInt();
+      int currentgoodid = pModel_tablegoodinfo->data(pModel_tablegoodinfo->index(curRow,0)).toInt();
+      qDebug()<<currentstock;
+      if(num>currentstock)
+      {
+           QMessageBox::information(this,"提示","库存不足");
+           return;
+      }
+
+      QString sql =  QString("update goods set goods_stocknum = goods_stocknum-'%1',goods_ground = goods_ground+'%2' where good_id = '%3'")
+                      .arg(num).arg(num).arg(currentgoodid);
+      QSqlQuery query(db);
+      bool b = query.exec(sql);
+      if(b)
+      {
+          QMessageBox::information(this,"提示","添加成功");
+          ui->lineEdit_goodinfo_goodup->setText("");
+          pModel_tablegoodinfo->select();
+      }
+      else
+      {
+          QMessageBox::information(this,"提示","失败");
+          qDebug()<<db.lastError();
+      }
 
 
 }
