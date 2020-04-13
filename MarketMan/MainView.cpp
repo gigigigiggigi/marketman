@@ -31,7 +31,7 @@ void MainView::SqlLink()
      db=QSqlDatabase::addDatabase("QMYSQL","ttt");
      db.setHostName("127.0.0.1");      //连接数据库主机名，这里需要注意（若填的为”127.0.0.1“，出现不能连接，则改为localhost)
      db.setPort(3306);                 //连接数据库端口号，与设置一致
-     db.setDatabaseName("marketman2");      //连接数据库名，与设置一致
+     db.setDatabaseName("marketman");      //连接数据库名，与设置一致
      db.setUserName("root");          //数据库用户名，与设置一致
      db.setPassword("123456");    //数据库密码，与设置一致
      db.open();
@@ -155,7 +155,7 @@ void MainView::InitWorkermanworkeradd()
     ui->lineEdit_workerman_salary->setValidator(validator);
     ui->lineEdit_workerman_phone->setValidator(validator);
     QSqlQueryModel *model = new QSqlQueryModel(this);
-    model->setQuery(QString("select workertype_type from workertype"),db);
+    model->setQuery(QString("select workertype_type_name from workertype"),db);
     ui->cbox_workerman_workertype->setModel(model);
 }
 
@@ -273,7 +273,8 @@ void MainView::SetWorkerInfoTable()
     pModel_tableworkerinfo->setHeaderData(2, Qt::Horizontal, tr("员工手机号"));
     pModel_tableworkerinfo->setHeaderData(4, Qt::Horizontal, tr("员工性别"));
     pModel_tableworkerinfo->setHeaderData(6, Qt::Horizontal, tr("员工工资"));
-    pModel_tableworkerinfo->setHeaderData(7, Qt::Horizontal, tr("员工类型"));
+    pModel_tableworkerinfo->setHeaderData(7, Qt::Horizontal, tr("员工权限"));
+    pModel_tableworkerinfo->setHeaderData(8, Qt::Horizontal, tr("员工类型"));
 
     ui->tableworkerinfo->setModel(pModel_tableworkerinfo);
     ui->tableworkerinfo->setColumnHidden(3,true);
@@ -288,10 +289,12 @@ void MainView::SetWorkerTypeInfoTable()
     pModel_tableworkerinfo_worktyinfo->setTable("workertype");
     pModel_tableworkerinfo_worktyinfo->setEditStrategy(QSqlTableModel::OnManualSubmit);
     pModel_tableworkerinfo_worktyinfo->select();
-    pModel_tableworkerinfo_worktyinfo->setHeaderData(0, Qt::Horizontal, tr("员工类型"));
+    pModel_tableworkerinfo_worktyinfo->setHeaderData(1, Qt::Horizontal, tr("员工权限"));
+    pModel_tableworkerinfo_worktyinfo->setHeaderData(2, Qt::Horizontal, tr("员工类型"));
+
 
     ui->tableworkertype->setModel(pModel_tableworkerinfo_worktyinfo);
-    ui->tableworkertype->setColumnWidth(0,ui->tableworkertype->width());
+    ui->tableworkertype->setColumnHidden(0,true);
     ui->tableworkertype->setSelectionBehavior(QAbstractItemView::SelectRows);//设置选中模式为选中行
     ui->tableworkertype->show();
 }
@@ -531,8 +534,8 @@ void MainView::on_btnadd_goodadd_clicked()
    QString pic = "";
 
    if(good_barcode==""||good_type==""||good_name==""||good_id==""||good_producer==""||good_supllier==""
-           ||good_inprice==NULL||good_outprice==NULL||good_stock==NULL||good_onground==NULL||
-           good_saled==NULL||good_warnline==NULL)
+           ||good_inprice==NULL||good_outprice==NULL||
+           good_warnline==NULL)
    {
        QMessageBox::information(this,"提示","输入无效,检查空值！！！");
        return;
@@ -793,17 +796,24 @@ void MainView::on_btnadd_workerman_clicked()
     QString workerpwd = ui->lineEdit_workerman_pwd->text();
     double workersalary = ui->lineEdit_workerman_salary->text().toFloat();
     QString workersex = ui->cbox_workerman_sex->currentText();
-    QString workertype = ui->cbox_workerman_workertype->currentText();
+    QString workertype_name = ui->cbox_workerman_workertype->currentText();
     QString workerphone = ui->lineEdit_workerman_phone->text();
-
+    QString sql_workertype = QString("select workertype_type from workertype where workertype_type_name = '%1'").arg(workertype_name);
+    QSqlQuery q(db);
+    QString workertype;
+    q.exec(sql_workertype);
+    while(q.next())
+    {
+        workertype = q.value(0).toString();
+    }
     if(workerid==NULL||workername==NULL||workerpwd==NULL||workersalary==NULL||workersex==NULL||workertype==NULL||workerphone == NULL)
     {
         QMessageBox::information(this,"提示","输入无效,检查空值！！！");
         return;
     }
 
-    QString sql = QString("insert into user(user_id,user_name,user_phone,user_password,user_sex,user_salary,user_type) values('%1','%2','%3','%4','%5','%6','%7')").arg(workerid).arg(workername).arg(workerphone).arg(workerpwd)
-                    .arg(workersex).arg(workersalary).arg(workertype);
+    QString sql = QString("insert into user(user_id,user_name,user_phone,user_password,user_sex,user_salary,user_type,user_type_name) values('%1','%2','%3','%4','%5','%6','%7','%8')").arg(workerid).arg(workername).arg(workerphone).arg(workerpwd)
+                    .arg(workersex).arg(workersalary).arg(workertype).arg(workertype_name);
     QSqlQuery query(db);
     QString sql2 = QString("select user_id from user where user_id = '%1'").arg(workerid);
     QSqlQuery query2(db);
@@ -823,6 +833,7 @@ void MainView::on_btnadd_workerman_clicked()
          ui->lineEdit_workerman_pwd->setText("");
          ui->lineEdit_workerman_salary->setText("");
          ui->lineEdit_workerman_phone->setText("");
+         pModel_tableworkerinfo->select();
     }
     else
     {
@@ -891,6 +902,7 @@ void MainView::on_btnupdate_workerman_clicked()
 void MainView::on_btnadd_workerman_workertype_clicked()
 {
     QString str = ui->lineEdit_workerman_workertype_type->text();
+    QString str2 = ui->cbox_workertype_power->currentText();
     if(str=="")
     {
         QMessageBox::information(this,"提示","输入无效");
@@ -898,8 +910,8 @@ void MainView::on_btnadd_workerman_workertype_clicked()
     }
     QSqlQuery query = QSqlQuery(db);
     QSqlQuery query2 = QSqlQuery(db);
-    QString sql  = QString("insert into workertype(workertype_type) values('%1')").arg(str);
-    QString sql2  = QString("select workertype_type from workertype where workertype_type = '%1'").arg(str);
+    QString sql  = QString("insert into workertype(workertype_type,workertype_type_name) values('%1','%2')").arg(str2).arg(str);
+    QString sql2  = QString("select workertype_type_name from workertype where workertype_type_name = '%1'").arg(str);
     query2.exec(sql2);
     while(query2.next())
     {
@@ -913,7 +925,7 @@ void MainView::on_btnadd_workerman_workertype_clicked()
         pModel_tableworkerinfo_worktyinfo->select();
         ui->lineEdit_workerman_workertype_type->setText("");
         QSqlQueryModel *model = new QSqlQueryModel(this);
-        model->setQuery(QString("select workertype_type from workertype"),db);
+        model->setQuery(QString("select workertype_type_name from workertype"),db);
         ui->cbox_workerman_workertype->setModel(model);
     }
 
@@ -986,6 +998,11 @@ void MainView::on_btngoodinfo_goodup_clicked()
 
       int curRow = ui->tableGoodsinfo->currentIndex().row();
 
+      if(curRow==-1)
+      {
+          QMessageBox::information(this,"提示","未选中项");
+          return;
+      }
       int currentstock =pModel_tablegoodinfo->data(pModel_tablegoodinfo->index(curRow,13)).toInt();
       int currentgoodid = pModel_tablegoodinfo->data(pModel_tablegoodinfo->index(curRow,0)).toInt();
       qDebug()<<currentstock;
