@@ -1493,7 +1493,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>390</x>
@@ -1602,7 +1602,7 @@
        <property name="geometry">
         <rect>
          <x>680</x>
-         <y>80</y>
+         <y>60</y>
          <width>141</width>
          <height>16</height>
         </rect>
@@ -1615,7 +1615,7 @@
        <property name="geometry">
         <rect>
          <x>680</x>
-         <y>130</y>
+         <y>90</y>
          <width>121</width>
          <height>21</height>
         </rect>
@@ -1625,13 +1625,59 @@
        <property name="geometry">
         <rect>
          <x>680</x>
-         <y>200</y>
+         <y>300</y>
          <width>93</width>
          <height>28</height>
         </rect>
        </property>
        <property name="text">
         <string>提交</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_39">
+       <property name="geometry">
+        <rect>
+         <x>680</x>
+         <y>130</y>
+         <width>111</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>新增员工权限：</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="cbox_workertype_power">
+       <property name="geometry">
+        <rect>
+         <x>680</x>
+         <y>170</y>
+         <width>87</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>0</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_40">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>220</y>
+         <width>371</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>说明：权限0为最高管理者，权限1为前台收银管理</string>
        </property>
       </widget>
      </widget>
