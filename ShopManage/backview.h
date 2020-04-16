@@ -1,24 +1,23 @@
-#ifndef WIDGET_H
-#define WIDGET_H
-
-#include "intable_model.h"
+#ifndef BACKVIEW_H
+#define BACKVIEW_H
 
 #include <QWidget>
-#include <qsqldatabase.h>
+#include "intable_model.h"
+#include "frmnavlistviewform.h"
 
 namespace Ui {
-class MainView;
+class backview;
 }
 
-
-class MainView : public QWidget
+class backview : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MainView(QWidget *parent = nullptr);
-
-    ~MainView();
+    explicit backview(QWidget *parent = 0,QString username="",QString userpwd="");
+    QString username;
+    QString userpwd;
+    ~backview();
 
 private slots:
         void SqlLink();
@@ -67,8 +66,11 @@ private slots:
         void on_btngoodinfo_goodup_clicked();
 
 private:
-    Ui::MainView *ui;
+    Ui::backview *ui;
     QSqlDatabase db;
+
+    frmNavListViewForm *f;
+
     intable_model *pModel_tablegoodtype;
     intable_model *pModel_tablegoodinfo;
     intable_model *pModel_tablestockinfo;
@@ -94,7 +96,8 @@ private:
 
 
     void SetModels();
+    void SetBack();
 
 };
 
-#endif // WIDGET_H
+#endif // BACKVIEW_H

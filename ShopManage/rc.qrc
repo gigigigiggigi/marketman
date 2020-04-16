@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>config.xml</file>
+        <file>005.jpg</file>
+        <file>007.jpg</file>
+        <file>013.jpg</file>
+        <file>016.jpg</file>
+        <file>017.jpg</file>
+        <file>backstage.xml</file>
+        <file>bck.jpg</file>
+    </qresource>
+</RCC>

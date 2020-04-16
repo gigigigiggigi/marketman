@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<layout>
+                <Node label="收营员管理界面"></Node>
+                <Node label="销售管理" collapse="0">
+                        <Node label="结账功能"></Node>
+                        <Node label="结账功能手册"></Node>
+		</Node>
+                <Node label="会员管理" collapse="0">
+                        <Node label="添加新会员"></Node>
+                        <Node label="老会员管理"></Node> 
+						<Node label="会员功能手册"></Node>						
+		</Node>
+                <Node label="退换货管理" collapse="0">
+                        <Node label="退/换货处理"></Node>
+						<Node label="退/换货功能手册"></Node>
+		</Node>
+                <Node label="帮助手册">
+		</Node>
+	</layout>
+</root>

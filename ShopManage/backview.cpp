@@ -1,5 +1,6 @@
-#include "MainView.h"
-#include "ui_MainView.h"
+#include "backview.h"
+#include "widget.h"
+#include "ui_backview.h"
 #include "navlistview.h"
 #include "intable_model.h"
 #include <QSqlDatabase>
@@ -10,32 +11,36 @@
 #include <QSqlQueryModel>
 #include <QSqltablemodel>
 
-MainView::MainView(QWidget *parent) :
+backview::backview(QWidget *parent,QString username,QString userpwd) :
     QWidget(parent),
-    ui(new Ui::MainView)
+    ui(new Ui::backview)
 {
+    this->username = username;
+    this->userpwd = userpwd;
+    this->setWindowTitle("管理员界面");
     ui->setupUi(this);
     setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
     setFixedSize(this->width(),this->height());
+
     SqlLink();
     this->SetListItem();
     SetModels();
+
 }
-MainView::~MainView()
+
+backview::~backview()
 {
     delete ui;
 }
 
-void MainView::SqlLink()
+void backview::SqlLink()
 {
-     db=QSqlDatabase::addDatabase("QMYSQL","ttt");
-     db.setHostName("127.0.0.1");      //连接数据库主机名，这里需要注意（若填的为”127.0.0.1“，出现不能连接，则改为localhost)
-     db.setPort(3306);                 //连接数据库端口号，与设置一致
-     db.setDatabaseName("marketman");      //连接数据库名，与设置一致
-     db.setUserName("root");          //数据库用户名，与设置一致
-     db.setPassword("123456");    //数据库密码，与设置一致
-     db.open();
 
+    db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("rm-bp1w73ygn47t2obnu0o.mysql.rds.aliyuncs.com");//数据库服务器的IP
+    db.setUserName("root"); //数据库用户名
+    db.setPassword("1996jackLWB!@#"); //密码
+    db.setDatabaseName("marketman"); //使用哪个数据库
      if(!db.open())
      {
          qDebug()<<"不能连接"<<"connect to mysql error"<<db.lastError().text();
@@ -47,7 +52,8 @@ void MainView::SqlLink()
      }
 }
 
-void MainView::handlelineeditclicked()
+
+void backview::handlelineeditclicked()
 {
     float p = ui->lineEdit_stock_goodnum->text().toInt()*ui->lineEdit_stock_singleprice->text().toFloat();
     QString data = QString("%1").arg(p);
@@ -56,16 +62,16 @@ void MainView::handlelineeditclicked()
 
 
 
-void MainView::SetListItem()
+void backview::SetListItem()
 {
-    ui->listView->readData(":/image/config.xml");
+    ui->listView->readData(":/image/backstage.xml");
 
     //connect(this->ui->pushButton,SIGNAL(clicked(bool)),this,SLOT(press()));
     //connect(this->ui->listView,SIGNAL(clicked(QModelIndex)),this,SLOT(press(QModelIndex)));
 }
 
 
-void MainView::InitGoodadd()
+void backview::InitGoodadd()
 {
     QSqlQueryModel *model = new QSqlQueryModel(this);
     model->setQuery(QString("select goodtype_type from goodtype"),db);
@@ -94,7 +100,7 @@ void MainView::InitGoodadd()
 
 }
 
-void MainView::InitStockman_stockinput()
+void backview::InitStockman_stockinput()
 {
     QSqlQueryModel *model = new QSqlQueryModel(this);
     model->setQuery(QString("select good_id from goods"),db);
@@ -137,14 +143,14 @@ void MainView::InitStockman_stockinput()
 
 }
 
-void MainView::InitSupplieradd()
+void backview::InitSupplieradd()
 {
     QRegExp regx("^([0]|[1-9][0-9]{0,99})(?:\\.\\d{1,4})?$|(^\\t?$)");
     QValidator *validator = new QRegExpValidator(regx, ui->lineEdit_goodadd_id);
     ui->lineEdit_stock_supplier_phone->setValidator(validator);
 }
 
-void MainView::InitWorkermanworkeradd()
+void backview::InitWorkermanworkeradd()
 {
     QRegExp regx("^([0]|[1-9][0-9]{0,99})(?:\\.\\d{1,4})?$|(^\\t?$)");
     QValidator *validator = new QRegExpValidator(regx);
@@ -160,7 +166,7 @@ void MainView::InitWorkermanworkeradd()
 }
 
 
-void MainView::SetGoodsTypeTable()
+void backview::SetGoodsTypeTable()
 {
     pModel_tablegoodtype = new intable_model(this,db);
     pModel_tablegoodtype->setTable("goodtype");
@@ -186,7 +192,7 @@ void MainView::SetGoodsTypeTable()
 
 }
 
-void MainView::SetGoodsInfoTable()
+void backview::SetGoodsInfoTable()
 {
     pModel_tablegoodinfo = new intable_model(this,db);
     pModel_tablegoodinfo->setTable("goods");
@@ -216,7 +222,7 @@ void MainView::SetGoodsInfoTable()
 
 }
 
-void MainView::SetStockInfoTable()
+void backview::SetStockInfoTable()
 {
     pModel_tablestockinfo = new intable_model(this,db);
     pModel_tablestockinfo->setTable("stock");
@@ -241,7 +247,7 @@ void MainView::SetStockInfoTable()
 
 }
 
-void MainView::SetSuppliersInfoTable()
+void backview::SetSuppliersInfoTable()
 {
     pModel_tablesuppliersinfo = new intable_model(this,db);
     pModel_tablesuppliersinfo->setTable("suppliers");
@@ -262,7 +268,7 @@ void MainView::SetSuppliersInfoTable()
 
 }
 
-void MainView::SetWorkerInfoTable()
+void backview::SetWorkerInfoTable()
 {
     pModel_tableworkerinfo = new intable_model(this,db);
     pModel_tableworkerinfo->setTable("user");
@@ -283,7 +289,7 @@ void MainView::SetWorkerInfoTable()
     ui->tableworkerinfo->show();
 }
 
-void MainView::SetWorkerTypeInfoTable()
+void backview::SetWorkerTypeInfoTable()
 {
     pModel_tableworkerinfo_worktyinfo = new intable_model(this,db);
     pModel_tableworkerinfo_worktyinfo->setTable("workertype");
@@ -299,7 +305,7 @@ void MainView::SetWorkerTypeInfoTable()
     ui->tableworkertype->show();
 }
 
-void MainView::SetModels()
+void backview::SetModels()
 {
     SetGoodsTypeTable();
     SetGoodsInfoTable();
@@ -307,10 +313,36 @@ void MainView::SetModels()
     SetSuppliersInfoTable();
     SetWorkerInfoTable();
     SetWorkerTypeInfoTable();
+    SetBack();
+
+}
+
+void backview::SetBack()
+{
+    QPalette pl = ui->textEdit_2->palette();
+
+    pl.setBrush(QPalette::Base,QBrush(QColor(255,0,0,0)));
+
+     ui->textEdit_2->setPalette(pl);
+     ui->textEdit_2->setStyleSheet("border: none;");
+
+     ui->lineEdit_usernow->setText(username);
+     ui->lineEdit_usernow->setStyleSheet("QLineEdit{background-color:transparent}"
+                                         "QLineEdit{border-width:0;border-style:outset}");
+
+
+     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+     ui->textEdit->setStyleSheet("border: none;");
+     ui->textEdit_3->setStyleSheet("border: none;");
+     ui->textEdit_3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+     ui->textEdit_3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 
-void MainView::on_listView_pressed(const QModelIndex &index)
+
+
+void backview::on_listView_pressed(const QModelIndex &index)
 {
 
     QString str = index.data().toString();
@@ -359,13 +391,31 @@ void MainView::on_listView_pressed(const QModelIndex &index)
     {
         this->ui->stackedWidget->setCurrentIndex(9);
     }
+    else if(str == "进入前台")
+    {
+        int ok = QMessageBox::warning(this,tr("进入前台"),tr("你确定进入前台界面吗？"), QMessageBox::Yes,QMessageBox::No);
+
+        if(ok == QMessageBox::Yes)
+        {
+            this->hide();
+            f = new frmNavListViewForm;
+            f->work_name = username;
+            f->work_passage = userpwd;
+            f->show();
+        }
+        else
+        {
+            return;
+        }
+
+    }
 
 
 
 
 }
 
-void MainView::on_btnadd_goodtype_clicked()
+void backview::on_btnadd_goodtype_clicked()
 {
     QString str = ui->lineEdit_goodtype->text();
     if(str=="")
@@ -395,7 +445,7 @@ void MainView::on_btnadd_goodtype_clicked()
         QMessageBox::information(this,"提示","失败");
 }
 
-void MainView::on_btndelete_goodtype_clicked()
+void backview::on_btndelete_goodtype_clicked()
 {
        QItemSelectionModel *sModel = ui->tableGoodstype->selectionModel();
 
@@ -435,7 +485,7 @@ void MainView::on_btndelete_goodtype_clicked()
 }
 
 
-void MainView::on_btnupdate_goodtype_clicked()
+void backview::on_btnupdate_goodtype_clicked()
 {
     int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
 
@@ -457,7 +507,7 @@ void MainView::on_btnupdate_goodtype_clicked()
 
 }
 
-void MainView::on_btnupdate_goodinfo_clicked()
+void backview::on_btnupdate_goodinfo_clicked()
 {
     int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
 
@@ -477,7 +527,7 @@ void MainView::on_btnupdate_goodinfo_clicked()
     }
 }
 
-void MainView::on_btndelete_goodinfo_clicked()
+void backview::on_btndelete_goodinfo_clicked()
 {
     QItemSelectionModel *sModel = ui->tableGoodsinfo->selectionModel();
 
@@ -514,7 +564,7 @@ void MainView::on_btndelete_goodinfo_clicked()
 
 }
 
-void MainView::on_btnadd_goodadd_clicked()
+void backview::on_btnadd_goodadd_clicked()
 {
    QString good_type = ui->cboc_goodadd_goodtype->currentText();
    QString good_id = ui->lineEdit_goodadd_id->text();
@@ -581,7 +631,7 @@ void MainView::on_btnadd_goodadd_clicked()
 
 }
 
-void MainView::on_cbox_stock_goodid_currentIndexChanged(const QString &arg1)
+void backview::on_cbox_stock_goodid_currentIndexChanged(const QString &arg1)
 {
     QSqlQuery query(db);
     QString sql = QString("select goods_name,goods_inprice from goods where good_id = '%1'").arg(arg1);
@@ -593,7 +643,7 @@ void MainView::on_cbox_stock_goodid_currentIndexChanged(const QString &arg1)
     }
 }
 
-void MainView::on_btnadd_stock_clicked()
+void backview::on_btnadd_stock_clicked()
 {
       QString good_id = ui->cbox_stock_goodid->currentText();
       QString good_name = ui->lineEdit_stock_goodname->text();
@@ -637,7 +687,7 @@ void MainView::on_btnadd_stock_clicked()
 
 }
 
-void MainView::on_btndelete_stock_clicked()
+void backview::on_btndelete_stock_clicked()
 {
     QItemSelectionModel *sModel = ui->tablestockinfo->selectionModel();
 
@@ -674,7 +724,7 @@ void MainView::on_btndelete_stock_clicked()
     }
 }
 
-void MainView::on_btnupdate_stock_clicked()
+void backview::on_btnupdate_stock_clicked()
 {
     int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
 
@@ -693,7 +743,7 @@ void MainView::on_btnupdate_stock_clicked()
     }
 }
 
-void MainView::on_btndelete_stock_supplier_clicked()
+void backview::on_btndelete_stock_supplier_clicked()
 {
     QItemSelectionModel *sModel = ui->tablesuppliersinfo->selectionModel();
 
@@ -730,7 +780,7 @@ void MainView::on_btndelete_stock_supplier_clicked()
     }
 }
 
-void MainView::on_btnupdate_stock_supplier_clicked()
+void backview::on_btnupdate_stock_supplier_clicked()
 {
     int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
 
@@ -750,7 +800,7 @@ void MainView::on_btnupdate_stock_supplier_clicked()
     }
 }
 
-void MainView::on_btnadd_stock_supplier_clicked()
+void backview::on_btnadd_stock_supplier_clicked()
 {
     QString suppliername = ui->lineEdit_stock_supplier_name->text();
     QString supplierphone = ui->lineEdit_stock_supplier_phone->text();
@@ -789,7 +839,7 @@ void MainView::on_btnadd_stock_supplier_clicked()
 
 }
 
-void MainView::on_btnadd_workerman_clicked()
+void backview::on_btnadd_workerman_clicked()
 {
     QString workerid = ui->lineEdit_workerman_id->text();
     QString workername = ui->lineEdit_workerman_name->text();
@@ -842,7 +892,7 @@ void MainView::on_btnadd_workerman_clicked()
     }
 }
 
-void MainView::on_btndelete_workerman_clicked()
+void backview::on_btndelete_workerman_clicked()
 {
     QItemSelectionModel *sModel = ui->tableworkerinfo->selectionModel();
 
@@ -879,7 +929,7 @@ void MainView::on_btndelete_workerman_clicked()
     }
 }
 
-void MainView::on_btnupdate_workerman_clicked()
+void backview::on_btnupdate_workerman_clicked()
 {
     int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
 
@@ -899,7 +949,7 @@ void MainView::on_btnupdate_workerman_clicked()
     }
 }
 
-void MainView::on_btnadd_workerman_workertype_clicked()
+void backview::on_btnadd_workerman_workertype_clicked()
 {
     QString str = ui->lineEdit_workerman_workertype_type->text();
     QString str2 = ui->cbox_workertype_power->currentText();
@@ -933,7 +983,7 @@ void MainView::on_btnadd_workerman_workertype_clicked()
         QMessageBox::information(this,"提示","失败");
 }
 
-void MainView::on_btnupdate_workerman_workertype_clicked()
+void backview::on_btnupdate_workerman_workertype_clicked()
 {
     int ok = QMessageBox::warning(this,tr("提交修改!"),tr("你确定提交修改吗？"), QMessageBox::Yes,QMessageBox::No);
 
@@ -953,7 +1003,7 @@ void MainView::on_btnupdate_workerman_workertype_clicked()
     }
 }
 
-void MainView::on_btndelete_workerman_workertype_clicked()
+void backview::on_btndelete_workerman_workertype_clicked()
 {
     QItemSelectionModel *sModel = ui->tableworkertype->selectionModel();
 
@@ -990,7 +1040,7 @@ void MainView::on_btndelete_workerman_workertype_clicked()
     }
 }
 
-void MainView::on_btngoodinfo_goodup_clicked()
+void backview::on_btngoodinfo_goodup_clicked()
 {
       int num = ui->lineEdit_goodinfo_goodup->text().toInt();
       if(num == NULL||num == 0)
