@@ -17,11 +17,11 @@ backview::backview(QWidget *parent,QString username,QString userpwd) :
 {
     this->username = username;
     this->userpwd = userpwd;
-    this->setWindowTitle("管理员界面");
+
     ui->setupUi(this);
     setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
     setFixedSize(this->width(),this->height());
-
+    this->setWindowTitle("管理员界面");
     SqlLink();
     this->SetListItem();
     SetModels();
