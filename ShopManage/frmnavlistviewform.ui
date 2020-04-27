@@ -34,6 +34,9 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="0" column="1">
@@ -47,7 +50,7 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page1">
       <widget class="QLabel" name="label_1">
@@ -430,23 +433,6 @@
         </font>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_2">
-       <property name="geometry">
-        <rect>
-         <x>-10</x>
-         <y>0</y>
-         <width>880</width>
-         <height>800</height>
-        </rect>
-       </property>
-       <property name="html">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:14pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/image/013.jpg&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
       <widget class="QPlainTextEdit" name="textEdit_goods">
        <property name="geometry">
         <rect>
@@ -475,28 +461,6 @@ p, li { white-space: pre-wrap; }
         <string>打开扫码枪</string>
        </property>
       </widget>
-      <zorder>textEdit_2</zorder>
-      <zorder>label_1</zorder>
-      <zorder>label</zorder>
-      <zorder>label_2</zorder>
-      <zorder>lineEdit_vip</zorder>
-      <zorder>label_3</zorder>
-      <zorder>lineEdit_total</zorder>
-      <zorder>pB_cashpay</zorder>
-      <zorder>pB_cardpay</zorder>
-      <zorder>label_4</zorder>
-      <zorder>lineEdit_income</zorder>
-      <zorder>label_5</zorder>
-      <zorder>lineEdit_outgoing</zorder>
-      <zorder>label_6</zorder>
-      <zorder>lineEdit_account</zorder>
-      <zorder>label_7</zorder>
-      <zorder>lineEdit_remain</zorder>
-      <zorder>pushButton_5</zorder>
-      <zorder>label_17</zorder>
-      <zorder>lineEdit_vip_2</zorder>
-      <zorder>textEdit_goods</zorder>
-      <zorder>pushButton_6</zorder>
      </widget>
      <widget class="QWidget" name="page2">
       <widget class="QLabel" name="label_8">
@@ -665,34 +629,6 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_3">
-       <property name="geometry">
-        <rect>
-         <x>-10</x>
-         <y>0</y>
-         <width>880</width>
-         <height>800</height>
-        </rect>
-       </property>
-       <property name="html">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:14pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/image/016.jpg&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-      <zorder>textEdit_3</zorder>
-      <zorder>label_8</zorder>
-      <zorder>label_9</zorder>
-      <zorder>label_10</zorder>
-      <zorder>label_11</zorder>
-      <zorder>lineEdit_newvipName</zorder>
-      <zorder>lineEdit_newvipPhone</zorder>
-      <zorder>pB_newvipRegister</zorder>
-      <zorder>label_16</zorder>
-      <zorder>lineEdit_newvipContirm</zorder>
-      <zorder>lineEdit_newvipFirst</zorder>
      </widget>
      <widget class="QWidget" name="page3">
       <widget class="QLabel" name="label_12">
@@ -882,37 +818,6 @@ p, li { white-space: pre-wrap; }
         </rect>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit">
-       <property name="geometry">
-        <rect>
-         <x>-10</x>
-         <y>0</y>
-         <width>880</width>
-         <height>800</height>
-        </rect>
-       </property>
-       <property name="html">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:14pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/image/016.jpg&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-      <zorder>textEdit</zorder>
-      <zorder>label_12</zorder>
-      <zorder>label_13</zorder>
-      <zorder>label_14</zorder>
-      <zorder>label_15</zorder>
-      <zorder>lineEdit_oldvipName</zorder>
-      <zorder>lineEdit_oldvipNewPhone</zorder>
-      <zorder>lineEdit_oldvipCOnfirm</zorder>
-      <zorder>pB_changeVipphone</zorder>
-      <zorder>pB_addVipcount</zorder>
-      <zorder>label_18</zorder>
-      <zorder>lineEdit_oldvipPhone</zorder>
-      <zorder>label_19</zorder>
-      <zorder>lineEdit_oldvipAddcount</zorder>
      </widget>
      <widget class="QWidget" name="page4">
       <widget class="QLabel" name="label_20">
@@ -1041,32 +946,6 @@ p, li { white-space: pre-wrap; }
         <string>确认退换货</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_4">
-       <property name="geometry">
-        <rect>
-         <x>-10</x>
-         <y>0</y>
-         <width>880</width>
-         <height>800</height>
-        </rect>
-       </property>
-       <property name="html">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:14pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/image/017.jpg&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-      <zorder>textEdit_4</zorder>
-      <zorder>label_20</zorder>
-      <zorder>label_25</zorder>
-      <zorder>textEdit_returnGoods</zorder>
-      <zorder>label_26</zorder>
-      <zorder>textEdit_returnReason</zorder>
-      <zorder>label_27</zorder>
-      <zorder>lineEdit_returnTotal</zorder>
-      <zorder>pB_return</zorder>
      </widget>
      <widget class="QWidget" name="page">
       <widget class="QCalendarWidget" name="calendarWidget">
@@ -1197,32 +1076,6 @@ p, li { white-space: pre-wrap; }
         <string>查看</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEdit_5">
-       <property name="geometry">
-        <rect>
-         <x>-10</x>
-         <y>0</y>
-         <width>880</width>
-         <height>800</height>
-        </rect>
-       </property>
-       <property name="html">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Agency FB'; font-size:14pt; font-weight:600; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/image/007.jpg&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-      <zorder>textEdit_5</zorder>
-      <zorder>calendarWidget</zorder>
-      <zorder>label_21</zorder>
-      <zorder>label_22</zorder>
-      <zorder>label_23</zorder>
-      <zorder>listView_2</zorder>
-      <zorder>textEdit_personInfo</zorder>
-      <zorder>label_24</zorder>
-      <zorder>pushButton</zorder>
      </widget>
      <widget class="QWidget" name="page_2"/>
     </widget>

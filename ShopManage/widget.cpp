@@ -21,8 +21,12 @@ Widget::Widget(QWidget *parent) :
 
     this->setWindowTitle("登陆界面");
     //打开数据库
+     setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
+    setFixedSize(this->width(),this->height());
     LinkMysql();
-
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Background,QBrush(QPixmap(":/image/016.jpg")));
+    this->setPalette(pal);
     //ui->lineEdit_userName->setTextMargins(1,0,0,0);
     ui->lineEdit_passWord->setEchoMode(QLineEdit::Password);
 

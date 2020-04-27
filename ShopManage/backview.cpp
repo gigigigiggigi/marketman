@@ -19,8 +19,9 @@ backview::backview(QWidget *parent,QString username,QString userpwd) :
     this->userpwd = userpwd;
 
     ui->setupUi(this);
-    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
-    setFixedSize(this->width(),this->height());
+   // setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
+    //setFixedSize(this->width(),this->height());
+
     this->setWindowTitle("管理员界面");
     SqlLink();
     this->SetListItem();
@@ -175,9 +176,10 @@ void backview::SetGoodsTypeTable()
     pModel_tablegoodtype->setHeaderData(1, Qt::Horizontal, tr("商品类别"));
 
     ui->tableGoodstype->setModel(pModel_tablegoodtype);
-    ui->tableGoodstype->setColumnWidth(1,ui->tableGoodstype->width());
     ui->tableGoodstype->setColumnHidden(0,true);
+    ui->tableGoodstype->setColumnWidth(1,ui->tableGoodstype->width());
     ui->tableGoodstype->setSelectionBehavior(QAbstractItemView::SelectRows);//设置选中模式为选中行
+    ui->tableGoodstype->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableGoodstype->show();
 
 
@@ -286,6 +288,7 @@ void backview::SetWorkerInfoTable()
     ui->tableworkerinfo->setColumnHidden(3,true);
     ui->tableworkerinfo->setColumnHidden(5,true);
     ui->tableworkerinfo->setSelectionBehavior(QAbstractItemView::SelectRows);//设置选中模式为选中行
+    ui->tableworkerinfo->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableworkerinfo->show();
 }
 
@@ -302,6 +305,7 @@ void backview::SetWorkerTypeInfoTable()
     ui->tableworkertype->setModel(pModel_tableworkerinfo_worktyinfo);
     ui->tableworkertype->setColumnHidden(0,true);
     ui->tableworkertype->setSelectionBehavior(QAbstractItemView::SelectRows);//设置选中模式为选中行
+    ui->tableworkertype->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableworkertype->show();
 }
 
@@ -330,13 +334,21 @@ void backview::SetBack()
      ui->lineEdit_usernow->setStyleSheet("QLineEdit{background-color:transparent}"
                                          "QLineEdit{border-width:0;border-style:outset}");
 
+     QPalette pal = ui->widget_6->palette();
+     pal.setBrush(QPalette::Background,QBrush(QPixmap(":/image/013.jpg")));
+     ui->widget_6->setPalette(pal);
+     QPalette pal2 = ui->widget_7->palette();
+     pal2.setBrush(QPalette::Background,QBrush(QPixmap(":/image/013.jpg")));
+     ui->widget_7->setPalette(pal2);
 
-     ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-     ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-     ui->textEdit->setStyleSheet("border: none;");
-     ui->textEdit_3->setStyleSheet("border: none;");
-     ui->textEdit_3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-     ui->textEdit_3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // ui->widget_6->setStyleSheet("border-image:url(:/image/bck.jpg);");
+     //ui->textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+     //ui->textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+     //ui->textEdit->setStyleSheet("border: none;");
+    // ui->textEdit_3->setStyleSheet("border: none;");
+    // ui->textEdit_3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // ui->textEdit_3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 
@@ -469,7 +481,7 @@ void backview::on_btndelete_goodtype_clicked()
                if(b)
                {
                    QMessageBox::information(this,"提示","删除成功");
-
+                   pModel_tablegoodinfo->select();
                }
                else
                    QMessageBox::information(this,"提示","失败");

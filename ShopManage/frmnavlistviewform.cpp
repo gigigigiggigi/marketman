@@ -16,6 +16,9 @@ frmNavListViewForm::frmNavListViewForm(QWidget *parent) :
 {
     ui->setupUi(this);
     this->initForm();
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Background,QBrush(QPixmap(":/image/016.jpg")));
+    this->setPalette(pal);
 }
 
 frmNavListViewForm::~frmNavListViewForm()
@@ -27,13 +30,15 @@ frmNavListViewForm::~frmNavListViewForm()
 void frmNavListViewForm::initForm()
 {
 
-    ui->listView->setIcoColorBg(false);
-    ui->listView->setColorLine(QColor(32, 53, 74));
-    ui->listView->setColorBg(QColor(52, 73, 94), QColor(24, 189, 155), QColor(24, 189, 155, 150));
-    ui->listView->setColorText(QColor(254, 255, 255), QColor(252, 252, 252), QColor(0, 0, 0));
+    ui->listView->setIcoColorBg(true);
+    //ui->listView->setColorLine(QColor(32, 53, 74));
+   // ui->listView->setColorBg(QColor(52, 73, 94), QColor(24, 189, 155), QColor(24, 189, 155, 150));
+    //ui->listView->setColorText(QColor(254, 255, 255), QColor(252, 252, 252), QColor(0, 0, 0));
 
     //加载xml文件形式
+
     ui->listView->readData(":/image/config.xml");
+
 }
 
 //页面跳转

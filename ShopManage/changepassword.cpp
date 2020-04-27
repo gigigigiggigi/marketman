@@ -13,7 +13,9 @@ ChangePassword::ChangePassword(QWidget *parent) :
     ui(new Ui::ChangePassword)
 {
     ui->setupUi(this);
-
+    QPalette pal = this->palette();
+    pal.setBrush(QPalette::Background,QBrush(QPixmap(":/image/007.jpg")));
+    this->setPalette(pal);
      ui->lineEdit_old->setEchoMode(QLineEdit::Password);
      ui->lineEdit_new->setEchoMode(QLineEdit::Password);
      ui->lineEdit_confirm->setEchoMode(QLineEdit::Password);
